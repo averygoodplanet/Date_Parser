@@ -22,11 +22,9 @@ class TestDateParser < MiniTest::Unit::TestCase
     assert_equal 12, (DateParser.parse("12/22/2012"))["month"]
   end
 
-#   def test_3_MMddYYYY_returns_2_digit_day
-#     DateParser.parse("12/22/2012")
-#     assert_equal 22, dateHash["day"]
-#     puts "Test 3"
-#   end
+  def test_3_MMddYYYY_returns_2_digit_day
+    assert_equal 22, (DateParser.parse("12/22/2012"))["day"]
+  end
 
 #   def test_4_MMddYYYY_returns_4_digit_year
 #     DateParser.parse("12/22/2012")

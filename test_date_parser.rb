@@ -4,7 +4,6 @@ require 'minitest/autorun'
 class TestDateParser < MiniTest::Unit::TestCase
   def test_1_date_parser_has_a_parse_method
     DateParser.parse("12/22/2012")
-    puts "Test 1"
   end
 
 =begin
@@ -12,23 +11,16 @@ class TestDateParser < MiniTest::Unit::TestCase
   into local Fixnum variables month, day, and year
   assuming month and day are both 2 digits and year is 4 digits
 =end
+
   def test_1b_check_passing_back_hash
     assert_equal 12, (DateParser.parse("12/22/2012"))["month"]
     assert_equal 22, (DateParser.parse("12/22/2012"))["day"]
     assert_equal 2012, (DateParser.parse("12/22/2012"))["year"]
-    puts "month: " + (DateParser.parse("12/22/2012"))["month"].to_s
-    puts "day: " + (DateParser.parse("12/22/2012"))["day"].to_s
-    puts "year:" + (DateParser.parse("12/22/2012"))["year"].to_s
   end
 
-  # def test_2_MMddYYYY_returns_2_digit_month
-  #   DateParser.parse("12/22/2012")
-  #   assert_equal 12, (DateParser.parse("12/22/2012"))["month"]
-  #   puts "Test 2"
-  #   puts DateParser.parse("12/22/2012")
-  #   puts "month" + (DateParser.parse("12/22/2012"))["month"]
-
-  # end
+  def test_2_MMddYYYY_returns_2_digit_month
+    assert_equal 12, (DateParser.parse("12/22/2012"))["month"]
+  end
 
 #   def test_3_MMddYYYY_returns_2_digit_day
 #     DateParser.parse("12/22/2012")

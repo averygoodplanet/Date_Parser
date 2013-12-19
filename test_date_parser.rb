@@ -17,8 +17,16 @@ class TestDateParser < MiniTest::Unit::TestCase
     assert_equal 12, (DateParser.parse("12/22/2012"))["month"]
   end
 
-  def test_3_MMddYYYY_returns_2_digit_day
+  def test_2b_MMddYYYY_returns_leading_zero_month_as_1_digit
+    assert_equal 2, (DateParser.parse("02/10/2012"))["month"]
+  end
+
+  def test_3_MMddYYYY_returns_2_digit_day_as_2_digits
     assert_equal 22, (DateParser.parse("12/22/2012"))["day"]
+  end
+
+  def test_3b_MMddYYY_returns_2_digit_day_leading_zero_as_1_digit
+    assert_equal 2, (DateParser.parse("12/02/2012"))["day"]
   end
 
   def test_4_MMddYYYY_returns_4_digit_year
@@ -38,11 +46,14 @@ class TestDateParser < MiniTest::Unit::TestCase
     assert_equal 2, (DateParser.parse("1/2/2012"))["day"]
   end
 
-  def test_7_monthDayYY_returns_2_digit_year
-    DateParser.parse("1/2/95")
-    assert_equal 95, (DateParser.parse("1/2/95"))["year"]
+  def test_7_monthDayYY_returns_2_digit_year_as_4_digits
+    assert_equal 1995, (DateParser.parse("1/2/95"))["year"]
+    assert_equal 2013, (DateParser.parse("1/2/2013"))["year"]
   end
 
+  def test_8_MonthDayYear_combinations_of_digits
+    assert_equal [1, 2, 1950], DateParser.parse("1/2/50").values
+  end
 =begin
   look up standard format for month/day/year with time
   and determine how to start parsing also time starting with hours only

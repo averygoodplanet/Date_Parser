@@ -1,3 +1,5 @@
+require 'date'
+
 class DateParser
   def self.parse(date_string)
     dateHash = Hash.new

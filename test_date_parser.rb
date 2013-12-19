@@ -67,6 +67,46 @@ class TestDateParser < MiniTest::Unit::TestCase
     assert_equal [11, 2, 1950], results_array("11/02/1950")
   end
 
+  def test_9_leading_whitespace_not_affect_date
+    assert_equal [1, 2, 1950], results_array("   1/2/50")
+  end
+
+  def test_10_trailing_whitespace_not_affect_date
+    assert_equal [1, 2, 1950], results_array("1/2/50   ")
+  end
+
+  def test_11_whitespace_inside_not_affect_date
+    assert_equal [1, 2, 1950], results_array("1/  2/50")
+    assert_equal [1, 22, 1950], results_array("1/ 2 2 / 50")
+    assert_equal [1, 22, 1950], results_array(" 1  / 2 2 / 5 0 ")
+  end
+
+  def test_12_extract_time_string
+    assert_equal [1, 2, 1950, "10:00"], results_array("1/2/1950 10:00")
+    assert_equal [1, 2, 1950, "10:00"], results_array("10:00   1/2/1950")
+    assert_equal [1, 2, 1950, "10:00PM"], results_array("10:00PM 1/2/1950")
+  end
+
+  def test_13_time_return_24hr_hours
+    assert_equal [1, 2, 1950, "10:00PM", 22], results_array("1/2/1950 10:00PM")
+    assert_equal [1, 2, 1950, "3:00AM", 3], results_array("1/2/1950 3:00AM")
+  end
+
+  def test_14_time_return_12hr_hours
+    assert_equal [1, 2, 1950, "10:00PM", 22, 10], results_array("1/2/1950 10:00PM")
+    assert_equal [1, 2, 1950, "3:00AM", 3, 3], results_array("1/2/1950 3:00AM")
+  end
+
+  def test_15_time_return_AM_PM
+    assert_equal [1, 2, 1950, "10:00PM", 22, "PM"], results_array("1/2/1950 10:00PM")
+    assert_equal [1, 2, 1950, "3:00AM", 3, "AM"], results_array("1/2/1950 3:00AM")
+  end
+
+  def test_16_time_return_minute
+    assert_equal [1, 2, 1950, "10:25PM", 22, "PM", 25], results_array("1/2/1950 10:25PM")
+    assert_equal [1, 2, 1950, "3:42AM", 3, "AM",  42], results_array("1/2/1950 3:42AM")
+  end
+
   def results_array(date_string)
     DateParser.parse(date_string).values
   end

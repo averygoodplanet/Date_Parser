@@ -52,8 +52,25 @@ class TestDateParser < MiniTest::Unit::TestCase
   end
 
   def test_8_MonthDayYear_combinations_of_digits
-    assert_equal [1, 2, 1950], DateParser.parse("1/2/50").values
+    # assert_equal [1, 2, 1950], DateParser.parse("1/2/50").values
+    assert_equal [1, 2, 1950], results_array("1/2/50")
+    assert_equal [1, 2, 1950], results_array("1/2/1950")
+    assert_equal [1, 2, 1950], results_array("01/2/50")
+    assert_equal [11, 2, 1950], results_array("11/2/50")
+    assert_equal [1, 2, 1950], results_array("01/2/1950")
+    assert_equal [11, 2, 1950], results_array("11/2/1950")
+    assert_equal [1, 2, 1950], results_array("1/02/50")
+    assert_equal [1, 20, 1950], results_array("1/20/1950")
+    assert_equal [1, 2, 1950], results_array("01/02/1950")
+    assert_equal [11, 2, 1950], results_array("11/02/1950")
+    assert_equal [1, 2, 1950], results_array("01/02/1950")
+    assert_equal [11, 2, 1950], results_array("11/02/1950")
   end
+
+  def results_array(date_string)
+    DateParser.parse(date_string).values
+  end
+
 =begin
   look up standard format for month/day/year with time
   and determine how to start parsing also time starting with hours only
